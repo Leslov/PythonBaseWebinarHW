@@ -6,12 +6,15 @@ def is_int(value):
         return False
 
 
-def input_by_type(input_text, type):
+def input_by_type(input_text, type, validate=None):
     if not callable(type):
         raise ValueError('Атрибут type должен быть функцией')
     while True:
         try:
-            return type(input(input_text))
+            value = type(input(input_text))
+            if callable(validate) and not validate(value):
+                continue
+            return value
         except:
             print(f'Введенное значение не является {type}. Повторите ввод')
 
@@ -32,3 +35,18 @@ def try_cast(value, type, default_value=None):
         return type(value)
     except:
         return default_value
+
+def run_exercise_selector(exercises):
+    end = False
+    last_index = len(exercises)
+    while not end:
+        msg = f'Введите номер упражнения для проверки. От 1 до {last_index}. Или любую клавишу для завершения: '
+        exc = input(msg)
+        exc_num = try_cast(exc, int, -1)
+
+        if exc_num <= 0 or exc_num > last_index:
+            break
+        print('\n****************\n')
+        print(f'Упражнение №{exc_num}')
+        exercises[exc_num - 1]()
+        print('\n****************\n')
