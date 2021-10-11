@@ -50,3 +50,7 @@ def run_exercise_selector(exercises):
         print(f'Упражнение №{exc_num}')
         exercises[exc_num - 1]()
         print('\n****************\n')
+
+
+def average(my_list):
+    return sum(my_list)/len(my_list)
